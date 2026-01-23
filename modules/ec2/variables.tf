@@ -8,3 +8,5 @@ variable "instance_type" {
 variable "allowed_ssh_cidr" {
   type = list(string)
 }
+variable "instance_profile_name" {}
+

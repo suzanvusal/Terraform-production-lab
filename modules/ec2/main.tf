@@ -34,6 +34,11 @@ resource "aws_launch_template" "this" {
     associate_public_ip_address = true
   }
 
+  iam_instance_profile {
+  name = var.instance_profile_name
+}
+
+
   tag_specifications {
     resource_type = "instance"
 
