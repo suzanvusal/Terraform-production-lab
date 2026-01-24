@@ -9,4 +9,5 @@ variable "allowed_ssh_cidr" {
   type = list(string)
 }
 variable "instance_profile_name" {}
+variable "log_group_name" {}
 

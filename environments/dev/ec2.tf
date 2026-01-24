@@ -7,5 +7,6 @@ module "ec2" {
   ami_id             = "ami-0c02fb55956c7d316" # Amazon Linux 2 (us-east-1)
   allowed_ssh_cidr   = ["0.0.0.0/0"]
   instance_profile_name = module.iam.instance_profile_name
+  log_group_name = module.cloudwatch.log_group_name
 
 }
