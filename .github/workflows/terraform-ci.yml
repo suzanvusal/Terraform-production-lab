@@ -1,13 +1,29 @@
-name: Terraform CI
+name: Terraform CI & Apply
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
 
+  # 🔹 Manual trigger for environment-based apply
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to apply (dev / staging / prod)"
+        required: true
+        default: dev
+        type: choice
+        options:
+          - dev
+          - staging
+          - prod
+
 jobs:
-  terraform:
-    name: Terraform Checks
+  # =========================
+  # CI JOB (unchanged logic)
+  # =========================
+  terraform-ci:
+    name: Terraform Checks (CI)
     runs-on: ubuntu-latest
 
     defaults:
@@ -37,3 +53,39 @@ jobs:
       - name: Terraform Plan
         run: terraform plan
         working-directory: environments/dev
+
+  # =========================
+  # APPLY JOB (manual only)
+  # =========================
+  terraform-apply:
+    name: Terraform Apply (${{ inputs.environment }})
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+
+    # 🔐 GitHub Environment binding
+    environment: ${{ inputs.environment }}
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.6
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: environments/${{ inputs.environment }}
+
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
+        working-directory: environments/${{ inputs.environment }}
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve tfplan
+        working-directory: environments/${{ inputs.environment }}
