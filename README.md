@@ -30,18 +30,10 @@ Least-privilege IAM
 
 Centralized logging & metrics
 
-now
-9: GitHub Actions Terraform CI
-Every push / PR will automatically:
+added -
+CI validation
+✔ Manual approval gates
+✔ Secure credentials
+✔ Safe infra delivery
+✔ Production mindset
 
-Format Terraform
-
-Validate configs
-
-Run a plan (no changes applied)
-
- 
- 
- 10: HTTPS + cost optimization
-
- 11+: WAF, alarms, budgets, Terraform Cloud
