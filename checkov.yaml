@@ -1,0 +1,19 @@
+# checkov.yaml
+framework:
+    - terraform
+  
+  skip_checks:
+    # Example skips (use only if needed)
+    # - CKV_AWS_20   # S3 bucket has public ACL
+    # - CKV_AWS_24   # S3 bucket encryption
+  
+  soft_fail: false
+  
+  output:
+    - cli
+  
+  severity:
+    - MEDIUM
+    - HIGH
+    - CRITICAL
+  
